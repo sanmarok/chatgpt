@@ -18,7 +18,7 @@ def main():
 
     os.system("cls")
 
-    openai.api_key = "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"
+    openai.api_key = "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"
 
     print("💬 [bold green]ChatGPT API en Python[/bold green]")
 
