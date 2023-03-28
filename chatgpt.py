@@ -1,42 +1,72 @@
-import openai
-from os import system
-from colorama import init, Fore, Back
-import time
+import openai  # pip install openai
+import typer  # pip install "typer[all]"
+from rich import print  # pip install rich
+from rich.table import Table
+import os
 
-system("cls")
-init()
+"""
+Webs de interés:
+- Módulo OpenAI: https://github.com/openai/openai-python
+- Documentación API ChatGPT: https://platform.openai.com/docs/api-reference/chat
+- Typer: https://typer.tiangolo.com
+- Rich: https://rich.readthedocs.io/en/stable/
+"""
 
-# Inicializar la biblioteca OpenAI con tu clave de API
-openai.api_key = "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"
 
-# Función para enviar la entrada del usuario y recibir la respuesta de GPT-3
-def chat(prompt):
-    # Configurar los parámetros de la solicitud de completado
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt= prompt,
-        temperature=0,
-        max_tokens=1024,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0
-    )
-    
-    # Obtener la respuesta del modelo y devolverla
-    message = response.choices[0].text.strip()
-    return message
 
-# Iniciar sesión de chat
-print("¡Bienvenido a Chat GPT-3! Escribe 'salir' para finalizar.")
-while True:
-    user_input = input(Fore.WHITE+"\nTú: ")
-    if user_input.lower() == "salir":
-        break
-    elif user_input.lower()=="cls":
-        system("cls")
-        print(Fore.RED+ "Se limpio el chat")
-        time.sleep(1)
-        system("cls")
-    else:
-        response = chat(user_input)
-        print(Fore.GREEN + "\nChatGPT-3: " + response)
+def main():
+
+    os.system("cls")
+
+    openai.api_key = "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"
+
+    print("💬 [bold green]ChatGPT API en Python[/bold green]")
+
+    table = Table("Comando", "Descripción")
+    table.add_row("exit", "Salir de la aplicación")
+    table.add_row("new", "Crear una nueva conversación")
+
+    print(table)
+
+    # Contexto del asistente
+    context = {"role": "system",
+               "content": "Eres un asistente muy útil."}
+    messages = [context]
+
+    while True:
+
+        content = __prompt()
+
+        if content == "new":
+            print("🆕 Nueva conversación creada")
+            messages = [context]
+            content = __prompt()
+
+        messages.append({"role": "user", "content": content})
+
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo", messages=messages)
+
+        response_content = response.choices[0].message.content
+
+        messages.append({"role": "assistant", "content": response_content})
+
+        print(f"[bold green]> [/bold green] [green]{response_content}[/green]")
+
+
+def __prompt() -> str:
+    prompt = typer.prompt("\n¿Sobre qué quieres hablar? ")
+
+    if prompt == "exit":
+        exit = typer.confirm("✋ ¿Estás seguro?")
+        if exit:
+            print("👋 ¡Hasta luego!")
+            raise typer.Abort()
+
+        return __prompt()
+
+    return prompt
+
+
+if __name__ == "__main__":
+    typer.run(main)
