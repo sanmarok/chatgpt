@@ -55,7 +55,7 @@ def main():
 
 
 def __prompt() -> str:
-    prompt = typer.prompt("\n¿Sobre qué quieres hablar? ")
+    prompt = typer.prompt("\nTú:  ")
 
     if prompt == "exit":
         exit = typer.confirm("✋ ¿Estás seguro?")
