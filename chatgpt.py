@@ -1,8 +1,27 @@
+import os
+import subprocess
+
+# Lista de librerías que quieres verificar que estén instaladas
+required_libraries = ['openai', 'typer', 'rich']
+
+# Obtiene las librerías instaladas en el sistema
+installed_libraries = subprocess.check_output(['pip', 'list']).decode('utf-8')
+
+# Verifica que cada librería requerida esté instalada
+for library in required_libraries:
+    if library not in installed_libraries:
+        print(f"La librería {library} no está instalada. Instalando...")
+        subprocess.check_call(['pip', 'install', library])
+        
+print("Todas las librerías requeridas están instaladas.")
+
+
+
 import openai  # pip install openai
 import typer  # pip install "typer[all]"
 from rich import print  # pip install rich
 from rich.table import Table
-import os
+
 
 """
 Webs de interés:
@@ -13,12 +32,11 @@ Webs de interés:
 """
 
 
-
 def main():
 
     os.system("cls")
 
-    openai.api_key = "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"
+    openai.api_key = ""
 
     print("💬 [bold green]ChatGPT API en Python[/bold green]")
 
