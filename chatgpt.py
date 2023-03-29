@@ -61,7 +61,7 @@ def main():
     
     systemContent = selectSystem()
 
-    openai.api_key = "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"
+    openai.api_key = ""
 
     print("💬 [bold green]ChatGPT API en Python[/bold green]")
 
