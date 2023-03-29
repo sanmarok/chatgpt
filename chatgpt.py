@@ -2,7 +2,7 @@ import os
 import subprocess
 
 # Lista de librerías que quieres verificar que estén instaladas
-required_libraries = ['openai', 'typer', 'rich']
+required_libraries = ['openai', 'typer', 'rich',"prettytable"]
 
 # Obtiene las librerías instaladas en el sistema
 installed_libraries = subprocess.check_output(['pip', 'list']).decode('utf-8')
@@ -16,7 +16,7 @@ for library in required_libraries:
 print("Todas las librerías requeridas están instaladas.")
 
 
-
+import prettytable 
 import openai  # pip install openai
 import typer  # pip install "typer[all]"
 from rich import print  # pip install rich
@@ -37,7 +37,7 @@ def selectSystem():
     os.system("cls")
     table = Table("Opciones","System")
     table.add_row("1","Normal")
-    table.add_row("2","DAN")
+    table.add_row("2","DAN \U0001f513")
     print(table)
     
     try:
